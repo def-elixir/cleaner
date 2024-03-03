@@ -32,8 +32,8 @@ defmodule Cleaner.CLI do
     with {:ok, abspath} <- to_abspath(path),
           :ok <- validate_path(abspath) do
       abspath
-      |> Path.join("/*")
-      |> Path.wildcard()
+      |> Path.join("/**")
+      |> Path.wildcard(match_dot: true)
       |> rm_rf()
     else
       {:error, reason} ->
@@ -46,7 +46,7 @@ defmodule Cleaner.CLI do
           :ok <- validate_path(abspath) do
       abspath
       |> Path.join("/*")
-      |> Path.wildcard()
+      |> Path.wildcard(match_dot: true)
       |> Enum.filter(&File.regular?/1)
       |> rm()
     else
